@@ -35,11 +35,17 @@ order by 1,2
 
 -- Looking at Countries with Highest Infection Rate compared to Population
 
-SELECT Location, population, MAX(total_cases) as HighestInfectionCount,MAX(total_cases/population)*100 as CasesPercentage
+SELECT Location, population, MAX(total_cases) as HighestInfectionCount,MAX(total_cases/population)*100 as PercentPopulationInfected
 From PortfolioProject..CovidDeaths
 --Where location like'%egypt%'
 Group by Location, population
-order by CasesPercentage desc
+order by PercentPopulationInfected desc
+
+SELECT Location, population,date, MAX(total_cases) as HighestInfectionCount,MAX(total_cases/population)*100 as PercentPopulationInfected
+From PortfolioProject..CovidDeaths
+--Where location like'%egypt%'
+Group by Location, population, date
+order by PercentPopulationInfected desc
 
 
 
@@ -85,6 +91,15 @@ From PortfolioProject..CovidDeaths
 where continent is not null
 -- Group by date
 order by 1,2
+
+
+select location, SUM(cast(new_deaths as int)) as TotalDeathCount
+from PortfolioProject..CovidDeaths
+where continent is null
+and location not in ('World', 'European Union', 'International')
+group by location 
+order by TotalDeathCount desc
+
 
 
 -- Looking at Total Population vs Vaccinations
